@@ -4,6 +4,7 @@ export const resultValue = (page: Page) => page.getByTestId('result-value');
 
 /** Отмечает все критерии-галочки Кзи, кроме неприменимости и перечисленных показателей. */
 export async function checkAllCriteria(page: Page, skip: string[] = []) {
+  await openKziGroups(page);
   const boxes = page.locator('article input[type=checkbox]');
   const count = await boxes.count();
   for (let index = 0; index < count; index++) {
@@ -32,4 +33,10 @@ export async function fillRatio(page: Page, code: string, total: string, part: s
 export async function expectNoHorizontalScroll(page: Page) {
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
   expect(overflow).toBeLessThanOrEqual(0);
+}
+
+export async function openKziGroups(page: Page) {
+  for (const button of await page.getByRole('button', { name: /^Группа [1-4]\./ }).all()) {
+    if ((await button.getAttribute('aria-expanded')) === 'false') await button.click();
+  }
 }

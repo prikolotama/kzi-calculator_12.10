@@ -96,3 +96,10 @@
     bottom: 84px;
   }
 }
+
+:global(html[data-embedded='true']) .region {
+  top: calc(var(--embed-top, 0px) + 12px);
+  bottom: auto;
+  max-height: calc(var(--embed-height, 600px) - 24px);
+  overflow-y: auto;
+}

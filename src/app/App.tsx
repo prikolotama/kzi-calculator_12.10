@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState, type Dispatch } from 'react';
-import { CONTACTS } from '../config';
 import { formatKzi, formatUzi } from '../domain/common/format';
 import type { Mode } from '../domain/mode';
 import { KziPanel } from '../features/kzi/KziPanel';
@@ -81,13 +80,6 @@ export function App() {
           {mode === 'kzi' ? <KziPanel onReport={openDialog} /> : <UziPanel onReport={openDialog} />}
         </aside>
       </div>
-      <footer className={styles.footer}>
-        Разработано:{' '}
-        <a href={CONTACTS.site} target="_blank" rel="noopener noreferrer">
-          {CONTACTS.companyFull} ({CONTACTS.company})
-        </a>
-        , {new Date().getFullYear()}
-      </footer>
       <MobileBar label={mobile.label} value={mobile.value} tag={mobile.tag} targetId={RESULT_ID} />
       <RequisitesDialog
         open={dialogOpen}

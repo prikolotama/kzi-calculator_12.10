@@ -27,10 +27,10 @@ export function createUziState(): UziState {
 
 export function createUiState(): UiState {
   return {
-    // «Информация о калькуляторе» свернута по умолчанию
-    sections: { kziAbout: false, kziZero: false, kziUseful: true, uziAbout: false, uziUseful: true },
-    kziGroups: Object.fromEntries(KZI_GROUPS.map(group => [group.id, true])) as Record<GroupId, boolean>,
-    uziDirections: { 1: true },
+    // Все раскрывающиеся разделы свернуты по умолчанию
+    sections: { kziAbout: false, kziZero: false, kziUseful: false, uziAbout: false, uziUseful: false },
+    kziGroups: Object.fromEntries(KZI_GROUPS.map(group => [group.id, false])) as Record<GroupId, boolean>,
+    uziDirections: {},
   };
 }
 

@@ -20,7 +20,12 @@ export function esbuildOptions(mode) {
     platform: 'browser',
     target: ['es2020', 'chrome100', 'edge100', 'firefox100', 'safari15'],
     jsx: 'automatic',
-    loader: { '.svg': 'dataurl', '.woff': 'file', '.woff2': 'file' },
+    loader: {
+      '.svg': 'dataurl',
+      '.woff': 'file',
+      '.woff2': 'file',
+      '.ttf': 'file',
+    },
     define: { 'process.env.NODE_ENV': JSON.stringify(mode) },
     legalComments: 'none',
     logLevel: 'warning',

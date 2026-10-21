@@ -88,3 +88,8 @@ svg {
     padding-bottom: 0;
   }
 }
+
+/* Корневой блок измеряется независимо от текущей высоты iframe. */
+#root {
+  display: flow-root;
+}

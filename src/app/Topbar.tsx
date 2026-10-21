@@ -1,4 +1,5 @@
 import { useRef } from 'react';
+import { FileHelpDialog } from './FileHelpDialog';
 import logoUrl from '../assets/logo.svg';
 import { Button } from '../components/Button';
 import { Icon } from '../components/Icon';
@@ -7,11 +8,12 @@ import { useStateFile } from './useStateFile';
 
 export function Topbar() {
   const { save, load } = useStateFile();
+  const help = useRef<HTMLDialogElement>(null);
   const input = useRef<HTMLInputElement>(null);
 
   return (
     <header className={styles.topbar}>
-      <a className={styles.logo} href="./">
+      <a className={styles.logo} href="https://sec.ussc.ru/products/checku" target="_blank" rel="noopener noreferrer">
         <img src={logoUrl} alt="CheckU" width={200} height={30} />
       </a>
       <div className={styles.files}>
@@ -48,7 +50,10 @@ export function Topbar() {
             }}
           />
         </div>
-        <p className={styles.note}>Данные никуда не отправляются, файл хранится только у вас</p>
+        <button type="button" className={styles.note} onClick={() => help.current?.showModal()}>
+          Как это работает
+        </button>
+        <FileHelpDialog dialogRef={help} />
       </div>
     </header>
   );

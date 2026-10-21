@@ -1,3 +1,4 @@
+import { initEmbed } from './embed';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import './styles/fonts.css';
@@ -22,3 +23,5 @@ createRoot(container).render(
     </AppStateProvider>
   </StrictMode>
 );
+
+initEmbed(container);

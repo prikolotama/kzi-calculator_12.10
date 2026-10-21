@@ -2,7 +2,6 @@ import type { ReactNode } from 'react';
 import { Button } from '../components/Button';
 import { Meter, type MeterTone } from '../components/Meter';
 import { Tag, type TagTone } from '../components/Tag';
-import { CONTACTS } from '../config';
 import type { Offer } from '../domain/offer';
 import styles from './ResultPanel.module.css';
 
@@ -30,7 +29,6 @@ export function ResultPanel({
   onReset,
   onCurrentReport,
   onReport,
-  offer,
 }: ResultPanelProps) {
   return (
     <div className={styles.card}>
@@ -57,18 +55,6 @@ export function ResultPanel({
         <Button variant="dark" block onClick={onReport} disabled={busy}>
           Сформировать отчет
         </Button>
-      </div>
-      <div className={styles.contact}>
-        <p className={styles.offer}>{offer.text}</p>
-        {offer.action && (
-          <a className={styles.lead} href={offer.action.href}>
-            {offer.action.label}
-          </a>
-        )}
-        <div className={styles.links}>
-          <a href={`tel:${CONTACTS.phoneHref}`}>{CONTACTS.phone}</a>
-          <a href={`mailto:${CONTACTS.email}`}>{CONTACTS.email}</a>
-        </div>
       </div>
     </div>
   );

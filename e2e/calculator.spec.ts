@@ -1,6 +1,6 @@
 import { readFile } from 'node:fs/promises';
 import { expect, test } from '@playwright/test';
-import { checkAllCriteria, fillAllRatios, fillRatio, resultValue } from './helpers';
+import { checkAllCriteria, fillAllRatios, fillRatio, openKziGroups, resultValue } from './helpers';
 
 test.beforeEach(async ({ page }) => {
   await page.goto('./');
@@ -13,7 +13,7 @@ test('Кзи: все показатели выполнены, затем пор�
   await checkAllCriteria(page);
   await fillAllRatios(page, '10', '10');
   await expect(resultValue(page)).toHaveText('1,00');
-  await expect(page.getByText('Минимальный базовый').first()).toBeVisible();
+  await expect(page.locator('aside').getByText('Минимальный базовый').first()).toBeVisible();
 
   // Пример из замечаний: 40 привилегированных, 18 со вторым фактором -> 45%, не выполнено
   await fillRatio(page, 'k22', '40', '18');
@@ -32,6 +32,7 @@ test('Кзи: все показатели выполнены, затем пор�
 });
 
 test('значок показателя только показывает состояние и не отмечает критерии', async ({ page }) => {
+  await openKziGroups(page);
   const k11 = page.locator('#indicator-k11');
   const status = k11.getByRole('img', { name: 'Не выполнен' });
   await expect(status).toBeVisible();
@@ -110,6 +111,7 @@ test('Узи: режим по ссылке, уровень направлени�
   await page.goto('./#uzi');
   await expect(page.getByRole('heading', { name: 'Калькулятор уровня зрелости' })).toBeVisible();
   const direction = page.locator('#direction-1');
+  await direction.locator('button[aria-expanded]').click();
   const groups = direction.getByRole('radiogroup');
   for (let index = 0; index < 8; index++) {
     await groups.nth(index).locator('input[type=radio]').last().check({ force: true });
@@ -144,6 +146,7 @@ test('ответы версии 3 переносятся из хранилища
     );
   });
   await page.goto('./#kzi');
+  await openKziGroups(page);
   const k11 = page.locator('#indicator-k11');
   await expect(k11.getByRole('img', { name: 'Выполнен', exact: true })).toBeVisible();
   await expect(page.locator('#indicator-k13').getByRole('img', { name: 'Не применим' })).toBeVisible();

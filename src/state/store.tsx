@@ -11,6 +11,7 @@ import {
 import { calculateKzi, type KziResult } from '../domain/kzi/calculate';
 import { isMode, type Mode } from '../domain/mode';
 import { calculateUzi, type UziResult } from '../domain/uzi/calculate';
+import { createUiState } from './defaults';
 import { reducer, type Action } from './reducer';
 import { loadState, saveState } from './storage';
 import type { AppState } from './types';
@@ -27,7 +28,7 @@ export function modeFromHash(hash: string): Mode | null {
 function initialState(): AppState {
   const { state } = loadState();
   const mode = typeof window !== 'undefined' ? modeFromHash(window.location.hash) : null;
-  return mode ? { ...state, mode } : state;
+  return { ...state, mode: mode ?? state.mode, ui: createUiState() };
 }
 
 const SAVE_DELAY_MS = 150;
