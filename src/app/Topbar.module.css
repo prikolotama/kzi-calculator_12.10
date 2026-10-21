@@ -77,3 +77,13 @@
     min-height: 44px;
   }
 }
+
+/* Встраиваемый калькулятор следует ширине страницы, сохраняя поля. */
+@media (min-width: 761px) {
+  :global(html[data-embedded='true']) .topbar {
+    max-width: none;
+    width: 100%;
+    padding-left: clamp(24px, 4.4vw, 120px);
+    padding-right: clamp(24px, 4.4vw, 120px);
+  }
+}
