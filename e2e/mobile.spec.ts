@@ -24,7 +24,7 @@ for (const width of [320, 390, 760]) {
       route.fulfill({
         contentType: 'text/html; charset=utf-8',
         body: `<style>body{margin:0}iframe{display:block;width:100%;border:0;height:600px}</style>
-        <div style="height:160px">Страница сайта</div><iframe src="http://localhost:4173/#kzi"></iframe>
+        <div style="height:300px">Страница сайта</div><iframe src="http://localhost:4173/#kzi"></iframe>
         <script>const frame=document.querySelector('iframe');window.addEventListener('message',e=>{
           if(e.source===frame.contentWindow && e.origin==='http://localhost:4173' && e.data.type==='checku:resize')frame.style.height=e.data.height+'px';
         });</script>`,
@@ -59,6 +59,14 @@ for (const width of [320, 390, 760]) {
       return bounds.top + offset >= 0 && bounds.bottom + offset <= 801 && bounds.left >= 0 && bounds.right <= width;
     };
     await expect.poll(inViewport).toBe(true);
+    for (const control of [dialog.getByRole('heading'), dialog.getByRole('button', { name: 'Понятно' })]) {
+      const inside = await control.evaluate(el => {
+        const box = el.getBoundingClientRect();
+        const modal = el.closest('dialog')!.getBoundingClientRect();
+        return box.top >= modal.top && box.bottom <= modal.bottom;
+      });
+      expect(inside).toBe(true);
+    }
     await page.screenshot({ path: `test-results/help-${width}.png` });
     await dialog.getByRole('button', { name: 'Понятно' }).click();
     await app.getByRole('button', { name: 'Сформировать отчет', exact: true }).click();
