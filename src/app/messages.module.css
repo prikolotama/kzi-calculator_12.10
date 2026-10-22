@@ -51,7 +51,8 @@
 
 .action {
   flex: none;
-  padding: 6px 10px;
+  min-height: 44px;
+  padding: 8px 12px;
   border: 0;
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.12);
@@ -67,8 +68,8 @@
   flex: none;
   display: grid;
   place-items: center;
-  width: 30px;
-  height: 30px;
+  width: 44px;
+  height: 44px;
   border: 0;
   border-radius: 8px;
   background: none;
@@ -98,8 +99,9 @@
 }
 
 :global(html[data-embedded='true']) .region {
-  top: calc(var(--embed-top, 0px) + 12px);
+  top: calc(var(--embed-top, 0px) + var(--embed-height, 600px) - 16px);
+  transform: translate(-50%, -100%);
   bottom: auto;
-  max-height: calc(var(--embed-height, 600px) - 24px);
+  max-height: calc(var(--embed-height, 600px) - 32px);
   overflow-y: auto;
 }

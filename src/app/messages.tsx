@@ -26,7 +26,15 @@ export function MessageProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (!message) return undefined;
     const timer = window.setTimeout(() => setMessage(null), message.action ? HIDE_WITH_ACTION_MS : HIDE_AFTER_MS);
-    return () => window.clearTimeout(timer);
+    // В старых вставках Т123 родитель не сообщает о прокрутке страницы.
+    const refresh =
+      window.parent !== window
+        ? window.setInterval(() => window.dispatchEvent(new Event('checku:viewport-refresh')), 100)
+        : undefined;
+    return () => {
+      window.clearTimeout(timer);
+      window.clearInterval(refresh);
+    };
   }, [message]);
 
   return (

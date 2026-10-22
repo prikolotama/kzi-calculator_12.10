@@ -45,6 +45,7 @@ export function initEmbed(root: HTMLElement): void {
   document.addEventListener('click', refreshViewport, true);
   document.addEventListener('focusin', refreshViewport, true);
   window.addEventListener('resize', refreshViewport);
+  window.addEventListener('checku:viewport-refresh', refreshViewport);
   refreshViewport();
   let lastHeight = 0;
   let frame = 0;
