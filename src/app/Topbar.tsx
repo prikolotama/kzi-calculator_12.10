@@ -14,7 +14,7 @@ export function Topbar() {
   return (
     <header className={styles.topbar}>
       <a className={styles.logo} href="https://sec.ussc.ru/products/checku" target="_blank" rel="noopener noreferrer">
-        <img src={logoUrl} alt="CheckU" width={200} height={30} />
+        <img src={logoUrl} alt="CheckU" width={294} height={44} />
       </a>
       <div className={styles.files}>
         <div className={styles.buttons}>
