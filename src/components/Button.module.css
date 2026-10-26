@@ -84,3 +84,13 @@
   color: var(--brand);
   text-decoration: underline;
 }
+
+.brand {
+  background: var(--brand-ui);
+  color: var(--text);
+  font-weight: 600;
+}
+
+.brand:not(:disabled):hover {
+  background: var(--brand);
+}

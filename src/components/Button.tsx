@@ -1,7 +1,7 @@
 import type { ButtonHTMLAttributes, ReactNode } from 'react';
 import styles from './Button.module.css';
 
-type Variant = 'dark' | 'outline' | 'light' | 'link';
+type Variant = 'brand' | 'dark' | 'outline' | 'light' | 'link';
 type Size = 'md' | 'sm';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {

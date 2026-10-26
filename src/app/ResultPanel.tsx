@@ -37,7 +37,7 @@ export function ResultPanel({ label, value, tag, meter, children, busy, onReset,
           <Button variant="light" onClick={onReset}>
             Сброс
           </Button>
-          <Button variant="dark" onClick={onCurrentReport} disabled={busy}>
+          <Button variant="brand" onClick={onCurrentReport} disabled={busy}>
             Скачать отчет
           </Button>
         </div>
