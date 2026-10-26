@@ -71,7 +71,7 @@ function Blockers({ result }: { result: KziResult }) {
   );
 }
 
-export function KziPanel({ onReport }: { onReport: () => void }) {
+export function KziPanel() {
   const { kzi, requisites } = useAppState();
   const dispatch = useDispatch();
   const result = useKziResult();
@@ -103,7 +103,6 @@ export function KziPanel({ onReport }: { onReport: () => void }) {
       busy={busy}
       onReset={reset}
       onCurrentReport={() => void generate('kziCurrent')}
-      onReport={onReport}
       offer={offer}
     >
       <PanelRows

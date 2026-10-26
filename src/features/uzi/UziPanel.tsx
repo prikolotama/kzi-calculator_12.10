@@ -7,7 +7,7 @@ import { uziOffer } from '../../domain/offer';
 import { UZI_DIRECTIONS } from '../../domain/uzi/methodology';
 import { useAppState, useDispatch, useUziResult } from '../../state/store';
 
-export function UziPanel({ onReport }: { onReport: () => void }) {
+export function UziPanel() {
   const { uzi, requisites } = useAppState();
   const dispatch = useDispatch();
   const result = useUziResult();
@@ -40,7 +40,6 @@ export function UziPanel({ onReport }: { onReport: () => void }) {
       busy={busy}
       onReset={reset}
       onCurrentReport={() => void generate('uziCurrent')}
-      onReport={onReport}
       offer={offer}
     >
       <PanelRows

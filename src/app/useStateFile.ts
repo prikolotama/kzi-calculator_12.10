@@ -6,7 +6,7 @@ import { useMessage } from './messages';
 
 const MAX_FILE_SIZE = 2 * 1024 * 1024;
 
-/** «Сохранить в файл» и «Загрузить из файла». */
+/** «Скачать настройки» и «Загрузить настройки». */
 export function useStateFile() {
   const state = useAppState();
   const dispatch = useDispatch();

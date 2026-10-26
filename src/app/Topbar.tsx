@@ -23,20 +23,20 @@ export function Topbar() {
             variant="outline"
             icon={<Icon name="download" />}
             onClick={save}
-            aria-label="Сохранить в файл"
-            title="Сохранить ответы и реквизиты в файл на компьютере"
+            aria-label="Скачать настройки"
+            title="Настройки включают ответы калькулятора. Скачайте файл, чтобы продолжить позже или передать коллеге"
           >
-            <span className={styles.label}>Сохранить в файл</span>
+            <span className={styles.label}>Скачать настройки</span>
           </Button>
           <Button
             size="sm"
             variant="outline"
             icon={<Icon name="upload" />}
             onClick={() => input.current?.click()}
-            aria-label="Загрузить из файла"
-            title="Загрузить ответы и реквизиты из сохраненного файла"
+            aria-label="Загрузить настройки"
+            title="Загрузить ответы калькулятора из сохраненных настроек"
           >
-            <span className={styles.label}>Загрузить из файла</span>
+            <span className={styles.label}>Загрузить настройки</span>
           </Button>
           <input
             ref={input}
