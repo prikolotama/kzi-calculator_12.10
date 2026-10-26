@@ -49,30 +49,15 @@ test('«Информация о калькуляторе» свернута по
   );
 });
 
-test('реквизиты спрашиваются при формировании отчета, письмо скачивается в .docx', async ({ page }) => {
-  await checkAllCriteria(page);
-  await fillAllRatios(page, '10', '10');
-  await page.locator('aside').getByRole('button', { name: 'Сформировать отчет' }).click();
-  const dialog = page.getByRole('dialog');
-  await expect(dialog).toBeVisible();
-  await dialog.getByRole('button', { name: 'Сформировать письмо' }).click();
-  await expect(dialog.getByText('Заполните поле').first()).toBeVisible();
-
-  await dialog.getByLabel('Название организации').fill('ООО «Ромашка»');
-  await dialog.getByLabel('Должность руководителя').fill('Директор');
-  await dialog.getByLabel('И.О. Фамилия руководителя').fill('И.И. Иванов');
-  await dialog.getByLabel('И.О. Фамилия исполнителя').fill('П.П. Петров');
-  await dialog.getByLabel('Телефон исполнителя').fill('+7 (343) 000-00-00');
-  await dialog.getByLabel('Электронная почта исполнителя').fill('petrov@example.ru');
-  await expect(dialog.getByLabel('Руководитель управления (кому)')).toHaveValue('О.П. Чувардину');
-
+test('Кзи: отчет скачивается без реквизитов', async ({ page }) => {
+  await expect(page.getByRole('button', { name: 'Сформировать отчет', exact: true })).toHaveCount(0);
   const [download] = await Promise.all([
     page.waitForEvent('download'),
-    dialog.getByRole('button', { name: 'Сформировать письмо' }).click(),
+    page.locator('aside').getByRole('button', { name: 'Скачать отчет' }).click(),
   ]);
-  expect(download.suggestedFilename()).toMatch(/^Отчет_Кзи_Ромашка_\d{2}\.\d{2}\.\d{4}\.docx$/);
-  const content = await readFile(await download.path());
-  expect(content.subarray(0, 2).toString()).toBe('PK');
+  expect(download.suggestedFilename()).toMatch(/\.docx$/);
+  expect((await readFile(await download.path())).subarray(0, 2).toString()).toBe('PK');
+  await expect(page.getByRole('dialog')).not.toBeVisible();
   await expect(page.getByTestId('toast')).toContainText('Отчет сохранен');
 });
 
@@ -83,7 +68,7 @@ test('сохранение в файл и загрузка из файла', asy
 
   const [download] = await Promise.all([
     page.waitForEvent('download'),
-    page.getByRole('button', { name: 'Сохранить в файл' }).click(),
+    page.getByRole('button', { name: 'Скачать настройки' }).click(),
   ]);
   expect(download.suggestedFilename()).toMatch(/^Кзи_\d{2}\.\d{2}\.\d{4}\.json$/);
   const file = await download.path();
@@ -121,7 +106,7 @@ test('Узи: режим по ссылке, уровень направлени�
 
   const [download] = await Promise.all([
     page.waitForEvent('download'),
-    page.locator('aside').getByRole('button', { name: 'Текущий отчет' }).click(),
+    page.locator('aside').getByRole('button', { name: 'Скачать отчет' }).click(),
   ]);
   expect(download.suggestedFilename()).toMatch(/^Текущий_отчет_Узи_\d{2}\.\d{2}\.\d{4}\.docx$/);
 

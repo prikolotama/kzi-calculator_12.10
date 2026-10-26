@@ -1,7 +1,7 @@
 import { DEFAULT_FSTEC_OFFICE, getFstecOffice, type FstecOfficeId } from './fstec';
 import type { Mode } from './mode';
 
-/** Реквизиты для отчетов. Спрашиваются при нажатии «Сформировать отчет» и сохраняются в браузере. */
+/** Реквизиты прежних версий. Сохраняются для совместимости с загруженными настройками. */
 export interface Requisites {
   organization: string;
   headPosition: string;

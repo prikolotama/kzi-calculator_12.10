@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type Dispatch } from 'react';
+import { useEffect, useRef, type Dispatch } from 'react';
 import { formatKzi, formatUzi } from '../domain/common/format';
 import type { Mode } from '../domain/mode';
 import { KziPanel } from '../features/kzi/KziPanel';
@@ -10,9 +10,7 @@ import { modeFromHash, useAppState, useDispatch, useKziResult, useUziResult } fr
 import styles from './App.module.css';
 import { MobileBar } from './MobileBar';
 import { ModeSwitch } from './ModeSwitch';
-import { RequisitesDialog } from './RequisitesDialog';
 import { Topbar } from './Topbar';
-import { useReports } from './ReportsContext';
 
 const RESULT_ID = 'result';
 
@@ -39,8 +37,6 @@ export function App() {
   const dispatch = useDispatch();
   const kzi = useKziResult();
   const uzi = useUziResult();
-  const { busy, generate } = useReports();
-  const [dialogOpen, setDialogOpen] = useState(false);
   const switchRef = useRef<HTMLDivElement>(null);
 
   const setMode = (next: Mode) => {
@@ -52,7 +48,6 @@ export function App() {
   };
   useHashMode(mode, dispatch);
 
-  const openDialog = () => setDialogOpen(true);
   const mobile =
     mode === 'kzi'
       ? {
@@ -77,20 +72,10 @@ export function App() {
           {mode === 'kzi' ? <KziView /> : <UziView />}
         </main>
         <aside className={styles.aside} id={RESULT_ID} aria-label="Результат расчета">
-          {mode === 'kzi' ? <KziPanel onReport={openDialog} /> : <UziPanel onReport={openDialog} />}
+          {mode === 'kzi' ? <KziPanel /> : <UziPanel />}
         </aside>
       </div>
       <MobileBar label={mobile.label} value={mobile.value} tag={mobile.tag} targetId={RESULT_ID} />
-      <RequisitesDialog
-        open={dialogOpen}
-        mode={mode}
-        busy={busy}
-        onClose={() => setDialogOpen(false)}
-        onConfirm={() => {
-          setDialogOpen(false);
-          void generate(mode === 'kzi' ? 'kziLetter' : 'uziFull');
-        }}
-      />
     </>
   );
 }

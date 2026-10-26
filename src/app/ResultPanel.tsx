@@ -14,22 +14,11 @@ interface ResultPanelProps {
   busy: boolean;
   onReset: () => void;
   onCurrentReport: () => void;
-  onReport: () => void;
   offer: Offer;
 }
 
 /** Правая панель: результат, кнопки отчетов и ненавязчивое предложение помощи. */
-export function ResultPanel({
-  label,
-  value,
-  tag,
-  meter,
-  children,
-  busy,
-  onReset,
-  onCurrentReport,
-  onReport,
-}: ResultPanelProps) {
+export function ResultPanel({ label, value, tag, meter, children, busy, onReset, onCurrentReport }: ResultPanelProps) {
   return (
     <div className={styles.card}>
       <div className={styles.label}>{label}</div>
@@ -49,12 +38,9 @@ export function ResultPanel({
             Сброс
           </Button>
           <Button variant="outline" onClick={onCurrentReport} disabled={busy}>
-            Текущий отчет
+            Скачать отчет
           </Button>
         </div>
-        <Button variant="dark" block onClick={onReport} disabled={busy}>
-          Сформировать отчет
-        </Button>
       </div>
     </div>
   );

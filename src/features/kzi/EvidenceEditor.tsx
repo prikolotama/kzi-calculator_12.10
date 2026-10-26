@@ -17,7 +17,7 @@ interface EvidenceEditorProps {
 
 /**
  * Необязательный перечень подтверждающих документов по показателю.
- * Документы выполненных показателей попадают в текущий отчет и в приложение к письму во ФСТЭК России.
+ * Документы показателей попадают в скачиваемый отчет.
  */
 export function EvidenceEditor({ indicator, items, notApplicable, met }: EvidenceEditorProps) {
   const dispatch = useDispatch();
@@ -119,9 +119,7 @@ export function EvidenceEditor({ indicator, items, notApplicable, met }: Evidenc
           </div>
         )}
         <p className={styles.note}>
-          {met
-            ? 'Документы войдут в текущий отчет и в приложение к письму во ФСТЭК России.'
-            : 'Документы войдут в приложение к письму, когда показатель будет выполнен.'}
+          {met ? 'Документы войдут в скачиваемый отчет.' : 'Документы сохраняются вместе с ответами калькулятора.'}
         </p>
       </div>
     </div>

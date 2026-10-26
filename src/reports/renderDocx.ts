@@ -1,6 +1,6 @@
 /**
  * Модель документа -> файл .docx (библиотека docx).
- * Оформление официальных документов: A4, Times New Roman 12, поля 2 см сверху и снизу, 2,5 см слева, 1,5 см справа.
+ * Оформление официальных документов: A4, Times New Roman 12, верхнее поле 3 см под колонтитул, нижнее 2 см, боковые поля как в бланке CheckU.
  */
 import {
   AlignmentType,
@@ -19,6 +19,7 @@ import {
   WidthType,
   convertMillimetersToTwip,
 } from 'docx';
+import { CHECKU_HEADER_PARTS, createCheckuHeader } from './checkuHeader';
 import { withoutYo } from '../domain/common/format';
 import type { Align, Block, CellFill, ReportDocument, Run, TableBlock, TableCell as ModelCell } from './model';
 
@@ -31,10 +32,11 @@ const PAGE = {
   width: 11906,
   height: 16838,
   margin: {
-    top: convertMillimetersToTwip(20),
+    top: convertMillimetersToTwip(30),
+    header: 1077,
     bottom: convertMillimetersToTwip(20),
-    left: convertMillimetersToTwip(25),
-    right: convertMillimetersToTwip(15),
+    left: 1701,
+    right: 850,
   },
 };
 /** Ширина области текста в DXA (1/20 пункта). */
@@ -213,6 +215,17 @@ export function buildDocx(report: ReportDocument): Document {
     creator: 'Калькулятор Кзи и Узи (CheckU)',
     title: report.title,
     styles: {
+      // В бланке контакты наследуют Calibri 9 и цвет 263238 от Normal.
+      // Отдельный стиль сохраняет это оформление при Times New Roman в теле отчета.
+      paragraphStyles: [
+        {
+          id: 'checkuHeader',
+          name: 'CheckU header',
+          run: { font: 'Calibri', size: 18, color: '263238' },
+          paragraph: { spacing: { after: 40, line: 240 } },
+        },
+      ],
+      characterStyles: [{ id: 'a7', name: 'CheckU hyperlink', run: { underline: { type: 'single' } } }],
       default: {
         document: { run: { font: FONT, size: SIZE.normal } },
       },
@@ -248,6 +261,7 @@ export function buildDocx(report: ReportDocument): Document {
     sections: [
       {
         properties: { page: { size: { width: PAGE.width, height: PAGE.height }, margin: PAGE.margin } },
+        headers: { default: createCheckuHeader() },
         children: report.blocks.flatMap(block => renderBlock(block, report.lineSpacing)),
       },
     ],
@@ -255,5 +269,5 @@ export function buildDocx(report: ReportDocument): Document {
 }
 
 export function renderDocxBlob(report: ReportDocument): Promise<Blob> {
-  return Packer.toBlob(buildDocx(report));
+  return Packer.toBlob(buildDocx(report), undefined, CHECKU_HEADER_PARTS);
 }
