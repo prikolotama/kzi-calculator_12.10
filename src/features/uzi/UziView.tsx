@@ -21,6 +21,7 @@ export function UziView() {
       />
       <InfoSection
         title="Информация о калькуляторе"
+        accent
         open={ui.sections.uziAbout}
         onToggle={open => dispatch({ type: 'ui/section', key: 'uziAbout', open })}
       >

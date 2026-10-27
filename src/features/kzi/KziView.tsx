@@ -21,6 +21,7 @@ export function KziView() {
       />
       <InfoSection
         title="Информация о калькуляторе"
+        accent
         open={ui.sections.kziAbout}
         onToggle={open => dispatch({ type: 'ui/section', key: 'kziAbout', open })}
       >

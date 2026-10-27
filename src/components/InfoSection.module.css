@@ -4,6 +4,15 @@
   border-radius: var(--radius-block);
 }
 
+.accent {
+  background: var(--brand-soft);
+  border-color: var(--brand-ui);
+}
+
+.accent .hint {
+  color: #8a4609;
+}
+
 .toggle {
   display: flex;
   align-items: center;

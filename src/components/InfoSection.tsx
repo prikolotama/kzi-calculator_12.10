@@ -4,6 +4,7 @@ import styles from './InfoSection.module.css';
 
 interface InfoSectionProps {
   title: string;
+  accent?: boolean;
   open: boolean;
   onToggle: (open: boolean) => void;
   /** Метка справа от заголовка, например «R2 = 0». */
@@ -13,10 +14,10 @@ interface InfoSectionProps {
 }
 
 /** Сворачиваемый справочный блок. */
-export function InfoSection({ title, open, onToggle, badge, id, children }: InfoSectionProps) {
+export function InfoSection({ title, accent = false, open, onToggle, badge, id, children }: InfoSectionProps) {
   const bodyId = useId();
   return (
-    <section className={styles.section} id={id}>
+    <section className={`${styles.section}${accent ? ` ${styles.accent}` : ''}`} id={id}>
       <button
         type="button"
         className={styles.toggle}
