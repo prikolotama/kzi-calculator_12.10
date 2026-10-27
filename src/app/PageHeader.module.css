@@ -37,12 +37,6 @@
   color: var(--brand-ui);
 }
 
-.reminder {
-  display: inline;
-  font-size: inherit;
-  line-height: inherit;
-}
-
 @media (max-width: 760px) {
   .title {
     font-size: 25px;

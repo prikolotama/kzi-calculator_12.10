@@ -5,7 +5,7 @@ import styles from './messages.module.css';
 export interface Message {
   text: string;
   tone?: 'ok' | 'error' | 'info';
-  /** Кнопка в сообщении: «Вернуть», «Добавить в календарь». */
+  /** Кнопка в сообщении: «Вернуть». */
   action?: { label: string; onClick: () => void };
 }
 

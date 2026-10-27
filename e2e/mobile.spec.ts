@@ -35,8 +35,8 @@ for (const width of [320, 390, 760]) {
     await expect(app.locator('header')).toBeVisible();
     await expect(app.locator('header a')).toHaveAttribute('href', 'https://sec.ussc.ru/products/checku');
     await expect(app.locator('header a')).toHaveAttribute('target', '_blank');
-    await expect(app.getByText('Скачать настройки', { exact: true })).toBeVisible();
-    await expect(app.getByText('Загрузить настройки', { exact: true })).toBeVisible();
+    await expect(app.getByText('Скачать данные', { exact: true })).toBeVisible();
+    await expect(app.getByText('Загрузить данные', { exact: true })).toBeVisible();
     await expect.poll(() => app.locator('body').evaluate(el => getComputedStyle(el).fontFamily)).toContain('Onest');
     await app.locator('body').evaluate(() => document.fonts.ready);
     expect(

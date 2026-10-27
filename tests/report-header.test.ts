@@ -35,6 +35,9 @@ for (const kind of ['kziCurrent', 'uziCurrent'] as const) {
     assert.ok(target, 'Связь колонтитула с изображением');
     assert.equal(readEntry(zip, `word/${target}`).subarray(0, 8).toString('hex'), '89504e470d0a1a0a');
     const document = readEntry(zip, 'word/document.xml').toString();
+    assert.match(document, /<w:jc w:val="both"/);
+    assert.match(document, /<w:spacing[^>]*w:after="200"/);
+    assert.match(document, /<w:spacing[^>]*w:line="264"/);
     assert.match(document, /w:headerReference w:type="default"/);
     assert.doesNotMatch(document, /<w:titlePg\s*\/>/);
     assert.match(readEntry(zip, 'word/styles.xml').toString(), /w:styleId="checkuHeader"/);

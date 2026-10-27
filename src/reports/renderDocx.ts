@@ -78,7 +78,7 @@ export function columnWidths(relative: readonly number[], total: number = CONTEN
 
 const BORDER = { style: BorderStyle.SINGLE, size: 4, color: '000000' };
 const CELL_BORDERS = { top: BORDER, bottom: BORDER, left: BORDER, right: BORDER };
-const CELL_MARGINS = { top: 40, bottom: 40, left: 80, right: 80 };
+const CELL_MARGINS = { top: 80, bottom: 80, left: 80, right: 80 };
 
 function fillColor(fill: CellFill | undefined, header: boolean): string | undefined {
   if (header) return COLORS.header;
@@ -97,10 +97,16 @@ function renderCell(model: ModelCell, width: number, size: number, options: { he
     verticalAlign: VerticalAlign.TOP,
     shading: color ? { type: ShadingType.CLEAR, color: 'auto', fill: color } : undefined,
     children: model.paragraphs.map(
-      runs =>
+      (runs, index) =>
         new Paragraph({
-          alignment: model.align === 'center' ? AlignmentType.CENTER : AlignmentType.LEFT,
-          spacing: { before: 0, after: 0, line: 240 },
+          alignment:
+            model.align === 'center'
+              ? AlignmentType.CENTER
+              : options.header || options.group
+                ? AlignmentType.LEFT
+                : AlignmentType.JUSTIFIED,
+          spacing: { before: 0, after: index < model.paragraphs.length - 1 ? 80 : 0, line: 264 },
+          contextualSpacing: false,
           children: textRuns(
             model.muted ? runs.map(run => (typeof run === 'string' ? { text: run, placeholder: true } : run)) : runs,
             size,
@@ -156,7 +162,8 @@ function renderBlock(block: Block, lineSpacing: number): (Paragraph | Table)[] {
           alignment: ALIGN[block.align ?? 'justify'],
           keepNext: block.keepNext,
           indent: block.indentLeft ? { left: convertMillimetersToTwip(block.indentLeft * 10) } : undefined,
-          spacing: { before: (block.spaceBefore ?? 0) * 20, after: 120, line },
+          spacing: { before: (block.spaceBefore ?? 0) * 20, after: 200, line },
+          contextualSpacing: false,
           children: textRuns(block.runs, size),
         }),
       ];
@@ -192,7 +199,8 @@ function renderBlock(block: Block, lineSpacing: number): (Paragraph | Table)[] {
           new Paragraph({
             alignment: AlignmentType.JUSTIFIED,
             numbering: { reference: block.ordered ? NUMBERS : BULLETS, level: 0, instance },
-            spacing: { before: 0, after: 60, line },
+            spacing: { before: 0, after: 120, line },
+            contextualSpacing: false,
             children: textRuns(runs, size),
           })
       );

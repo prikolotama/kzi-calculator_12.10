@@ -15,7 +15,7 @@ export const STORAGE_KEYS = {
   legacyV2: 'checku-kzi-v2',
 } as const;
 
-/** Формат файла «Скачать настройки». */
+/** Формат файла «Скачать данные». */
 export const FILE_FORMAT = {
   id: 'checku-kzi-uzi',
   version: 4,

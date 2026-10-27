@@ -68,7 +68,7 @@ test('сохранение в файл и загрузка из файла', asy
 
   const [download] = await Promise.all([
     page.waitForEvent('download'),
-    page.getByRole('button', { name: 'Скачать настройки' }).click(),
+    page.getByRole('button', { name: 'Скачать данные' }).click(),
   ]);
   expect(download.suggestedFilename()).toMatch(/^Кзи_\d{2}\.\d{2}\.\d{4}\.json$/);
   const file = await download.path();
@@ -81,15 +81,12 @@ test('сохранение в файл и загрузка из файла', asy
   await expect(page.getByTestId('toast')).toContainText('Данные загружены');
 });
 
-test('напоминание о следующей оценке скачивается в формате .ics', async ({ page }) => {
-  const [download] = await Promise.all([
-    page.waitForEvent('download'),
-    page.getByRole('button', { name: 'Добавить в календарь' }).click(),
-  ]);
-  expect(download.suggestedFilename()).toMatch(/^Напоминание_Кзи_\d{2}\.\d{2}\.\d{4}\.ics$/);
-  const text = (await readFile(await download.path())).toString('utf8');
-  expect(text).toContain('BEGIN:VEVENT');
-  expect(text).toContain('TRIGGER:-P14D');
+test('срок следующей проверки показан без календаря в обоих режимах', async ({ page }) => {
+  for (const mode of ['kzi', 'uzi']) {
+    await page.goto(`./#${mode}`);
+    await expect(page.getByText(/При оценке сегодня следующая проверка не позднее/)).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Добавить в календарь' })).toHaveCount(0);
+  }
 });
 
 test('Узи: режим по ссылке, уровень направления и текущий отчет', async ({ page }) => {

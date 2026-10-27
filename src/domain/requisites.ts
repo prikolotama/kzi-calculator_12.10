@@ -1,7 +1,7 @@
 import { DEFAULT_FSTEC_OFFICE, getFstecOffice, type FstecOfficeId } from './fstec';
 import type { Mode } from './mode';
 
-/** Реквизиты прежних версий. Сохраняются для совместимости с загруженными настройками. */
+/** Реквизиты прежних версий. Сохраняются для совместимости с загруженными данными. */
 export interface Requisites {
   organization: string;
   headPosition: string;

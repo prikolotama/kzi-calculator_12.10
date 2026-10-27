@@ -4,7 +4,6 @@ import { Packer } from 'docx';
 import { calculateKzi } from '../src/domain/kzi/calculate';
 import { calculateUzi } from '../src/domain/uzi/calculate';
 import { UZI_DIRECTIONS } from '../src/domain/uzi/methodology';
-import { buildReminder, foldIcsLine } from '../src/reports/ics';
 import { buildReport } from '../src/reports';
 import { buildKziLetter, letterAttachments } from '../src/reports/kziReports';
 import { documentText, type ReportDocument } from '../src/reports/model';
@@ -162,42 +161,5 @@ describe('Файл .docx', () => {
       assert.equal(buffer.subarray(0, 2).toString(), 'PK', kind);
       assert.ok(buffer.length > 5000, kind);
     }
-  });
-});
-
-describe('Напоминание .ics', () => {
-  const reminder = buildReminder({
-    mode: 'kzi',
-    organization: 'ООО «Ромашка», филиал; отдел',
-    assessedAt: fixedDate,
-    calculatorUrl: 'https://example.ru/kzi/#kzi',
-    now: new Date(Date.UTC(2026, 9, 7, 9, 0, 0)),
-    uid: 'test@kzi-calculator',
-  });
-
-  test('срок через 6 месяцев, оповещение за 14 дней', () => {
-    assert.match(reminder.content, /\r\nDTSTART;VALUE=DATE:20270407\r\nDTEND;VALUE=DATE:20270408\r\n/);
-    assert.match(reminder.content, /TRIGGER:-P14D/);
-    assert.match(reminder.content, /DTSTAMP:20261007T090000Z/);
-    assert.equal(reminder.fileName, 'Напоминание_Кзи_Ромашка_07.04.2027.ics');
-  });
-
-  test('экранирование и перенос длинных строк', () => {
-    const unfolded = reminder.content.replace(/\r\n /g, '');
-    assert.match(unfolded, /SUMMARY:Срок оценки Кзи: ООО «Ромашка»\\, филиал\\; отдел\r\n/);
-    assert.match(unfolded, /DESCRIPTION:Показатель защищенности \(Кзи\) оценивается не реже одного раза в 6 месяцев/);
-    const encoder = new TextEncoder();
-    for (const line of reminder.content.split('\r\n')) assert.ok(encoder.encode(line).length <= 75, line);
-    assert.ok(reminder.content.endsWith('END:VCALENDAR\r\n'));
-  });
-
-  test('Узи: срок через 2 года', () => {
-    const uzi = buildReminder({ mode: 'uzi', organization: '', assessedAt: fixedDate, calculatorUrl: 'https://x.ru' });
-    assert.equal(uzi.fileName, 'Напоминание_Узи_07.10.2028.ics');
-  });
-
-  test('перенос не разрывает символы', () => {
-    const folded = foldIcsLine(`DESCRIPTION:${'я'.repeat(100)}`);
-    assert.equal(folded.replace(/\r\n /g, ''), `DESCRIPTION:${'я'.repeat(100)}`);
   });
 });
